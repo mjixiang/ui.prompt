@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>弹框 demo</title>
+    <link rel="stylesheet" type="text/css" href="ui.prompt.css">
+    <script src="jquery-2.1.1.min.js"></script>
+    <script src="ui.prompt.js"></script>
+</head>
+<body>
+    
+</body>
+    <button id="btn1">url弹框</button>
+    <button id="btn2">html弹框</button>
+    <div style="background:#678990;height:200px;width:200px;"></div>
+    <script>
+        //--------------以下实例测试------------
+        var textBox;
+        $("#btn1").click(function () {
+            textBox = new window.UI.prompt("小明", "tpl.html",[
+                {name:'确认',onclick:function(){
+                    alert('good man');
+                }},
+                {name:'关闭',onclick:function(){
+                    textBox.close();
+                }}
+            ]);
+            textBox.onClose(function(){
+                alert("文本窗口关闭");    
+            });
+            //如果url的话需要在 onload 里面绑定窗体内部事件
+            textBox.onLoad(function(){
+                $('.alert-again').on('click',function(){
+                    var alertPrompt = new window.UI.prompt('标题','<h1>弹出内容</h1><button class="setFirstTop" style="margin:20px;">把下面的框框设置顶层</button>');
+                    $('.setFirstTop').on('click',function(){
+                        textBox.show();
+                    });
+                });
+            })
+        });
+
+        $("#btn2").click(function () {
+            var textBox = new window.UI.prompt("小明", '<div style="width:500px;"><ul><li>菜单1<ul><li>子菜单1</li><li>子菜单2</li></ul></li><li>菜单2<ul><li>子菜单1</li><li>子菜单2</li></ul></li><li>菜单3</li></ul></div>',[
+                {name:'自定义按钮',onclick:function(){
+                    alert('自定义按钮的自定义事件');
+                }},
+                {name:'关闭弹框',onclick:function(){
+                    textBox.close();
+                }},
+                {name:'啥',onclick:function(){
+                }}
+            ]);
+            textBox.onClose(function(){
+                // alert("文本窗口关闭");    
+            });
+        });
+
+    </script>
+</html>
